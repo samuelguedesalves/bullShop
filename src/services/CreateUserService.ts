@@ -9,6 +9,11 @@ class CreateUserService {
     }
 
     public execute ({ name, cpf, cell_number, phone_number, email, password }: Omit<User, 'id'>): User {
+        
+        if( !name || !cpf || !cell_number || !phone_number || !email || !password ) {
+            throw new Error('Also data is missing');
+        }
+        
         const duplicatedUser = this.userRepository.findDuplicatedData({ cpf, cell_number, phone_number, email });
 
         if(duplicatedUser){
